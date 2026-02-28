@@ -46,7 +46,7 @@ def run_inference(model, tokenizer, device=None, num_samples=3, max_prompts=None
     batch_size = 20
     all_pairs = []
     
-    # 保存原始 padding 方向，生成时使用左 padding
+    # 保存原始 padding 方向，生成时使用左 padding，为了让模型接着做回答
     original_padding_side = tokenizer.padding_side
     tokenizer.padding_side = "left"
     
@@ -83,7 +83,7 @@ def run_inference(model, tokenizer, device=None, num_samples=3, max_prompts=None
                 num_return_sequences=num_samples,
                 pad_token_id=tokenizer.pad_token_id,
                 eos_token_id=tokenizer.eos_token_id,  # 明确指定 eos_token_id
-                repetition_penalty=1.2
+                repetition_penalty=1.2 # 重复惩罚
             )
         
         for i, p in enumerate(batch_prompts):
